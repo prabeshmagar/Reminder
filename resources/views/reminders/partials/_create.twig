@@ -1,0 +1,61 @@
+<form action="{{ path_for('reminders.store')}}" method="POST">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="body">Reminder name</label>
+                <input type="text" name="body" id="body" class="form-control">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="frequency">Frequency</label>
+                <select name="frequency" id="frequency" class="form-control">
+                    {% for value, frequency in date.frequencies %}
+                        <option value="{{ value }}">{{ frequency }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="day">Day</label>
+                <select name="day" id="day" class="form-control">
+                    <option value="">Choose</option>
+                    {% for value, day in date.days %}
+                        <option value="{{ value }}">{{ day }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="date">Date</label>
+                <select name="date" id="date" class="form-control">
+                    <option value="">Choose</option>
+                    {% for x in 1..31 %}
+                        <option value="{{ x }}">{{ date.ordinal(x) }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="time">Time</label>
+                <select name="time" id="time" class="form-control">
+                    {% for time in date.range('00:00', '24:00') %}
+                        <option value="{{ time.format('H:i') }}">{{ time.format('H:i') }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-check">
+        <label for="run_once" class="form-check-label">
+            <input type="checkbox" name="run_once" id="run_once" class="form-check-input">
+            Run only once
+        </label>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Add reminder</button>
+</form>

@@ -1,0 +1,51 @@
+{% extends 'app.twig' %}
+
+{% block content %}
+
+    {% include 'reminders/partials/_create.twig'%}
+    <hr>
+
+    {% if reminders.count %}
+    <div class="table-responsive">
+        <table class="table">
+        <thead>
+        <tr>
+            <th> Reminder</th>
+            <th> Frequency </th>
+            <th> Day </th>
+            <th> Date </th>
+            <th> Time </th>
+            <th> Run once?</th>
+            <th> &nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for reminder in reminders%}
+        <tr> 
+            <td>{{ reminder.body}}</td>
+            <td>{{ reminder.frequency}}</td>
+            <td>{{ reminder.day ?: '-'}}</td>
+            <td>{{ reminder.date ?: '-' }}</td>
+            <td>{{ reminder.time }}</td>
+            <td>{{ reminder.run_once ? 'Yes' : 'No' }}</td>
+        <td>
+                  <a href = "#" onclick="event.preventDefault(); document.getElementById('destroy-{{reminder.id}}').submit();">Delete</a>
+
+        </td>
+
+        </tr>
+        {% endfor %}
+        </tbody>
+        </table>
+
+        {% for reminder in reminders %}
+            <form action = "{{path_for('reminders.destroy', {reminder: reminder.id}) }}" method ="POST" id="destroy-{{reminder.id}}">
+          
+            
+        {% endfor %}
+    </div>
+
+    {% else %}
+        <p> You have no reminders </p>
+    {%endif%}
+{% endblock %}
